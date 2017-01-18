@@ -36,108 +36,108 @@ In addition to those basic features, Shader Tools for Visual Studio includes man
   <tbody>
     <tr>
       <td>Syntax highlighting</td>
-      <td>✓</td>
-      <td>✓</td>
-      <td>✓</td>
-      <td>✓</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
     </tr>
     <tr>
       <td>Automatic formatting</td>
-      <td>✓</td>
-      <td>✓</td>
-      <td>✓</td>
-      <td>✓</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
     </tr>
     <tr>
       <td>Brace matching</td>
-      <td>✓</td>
-      <td>✓</td>
-      <td>✓</td>
-      <td>✓</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
     </tr>
     <tr>
       <td>Brace completion</td>
-      <td>✓</td>
-      <td>✓</td>
-      <td>✓</td>
-      <td>✓</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
     </tr>
     <tr>
       <td>Outlining</td>
-      <td>✓</td>
-      <td>✓</td>
-      <td>✓</td>
-      <td>✓</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
     </tr>
     <tr>
       <td><a href="#statement-completion">Statement completion</a></td>
       <td></td>
-      <td>✓</td>
+      <td>?</td>
       <td></td>
       <td></td>
     </tr>
     <tr>
       <td><a href="#signature-help">Signature help</a></td>
       <td></td>
-      <td>✓</td>
+      <td>?</td>
       <td></td>
       <td></td>
     </tr>
     <tr>
       <td><a href="#reference-highlighting">Reference highlighting</a></td>
       <td></td>
-      <td>✓</td>
+      <td>?</td>
       <td></td>
       <td></td>
     </tr>
     <tr>
       <td><a href="#navigation-bar">Navigation bar</a></td>
       <td></td>
-      <td>✓</td>
+      <td>?</td>
       <td></td>
       <td></td>
     </tr>
     <tr>
       <td><a href="#navigate-to">Navigate to (Ctrl+,)</a></td>
       <td></td>
-      <td>✓</td>
+      <td>?</td>
       <td></td>
       <td></td>
     </tr>
     <tr>
       <td><a href="#live-errors">Live errors</a></td>
       <td></td>
-      <td>✓</td>
+      <td>?</td>
       <td></td>
-      <td>✓</td>
+      <td>?</td>
     </tr>
     <tr>
       <td><a href="#go-to-definition">Go to definition</a></td>
       <td></td>
-      <td>✓</td>
+      <td>?</td>
       <td></td>
-      <td>✓</td>
+      <td>?</td>
     </tr>
     <tr>
       <td><a href="#quick-info">Quick info</a></td>
       <td></td>
-      <td>✓</td>
+      <td>?</td>
       <td></td>
       <td></td>
     </tr>
     <tr>
       <td><a href="#preprocessor-support">Gray out code excluded by preprocessor</a></td>
       <td></td>
-      <td>✓</td>
+      <td>?</td>
       <td></td>
       <td></td>
     </tr>
     <tr>
       <td><a href="#options">Language-specific preferences</a></td>
       <td></td>
-      <td>✓</td>
+      <td>?</td>
       <td></td>
-      <td>✓</td>
+      <td>?</td>
     </tr>
   </tbody>
 </table> 
@@ -233,6 +233,36 @@ Inspired by Roslyn, Shader Tools includes a syntax visualizer for HLSL source fi
 but may be of interest to language nerds, so it's included in the main extension. Open it using `View > Other Windows > HLSL Syntax Visualizer`.
 
 ![Syntax visualizer demo](art/syntax-visualizer.gif)
+
+### Custom preprocessor definitions and additional include directories
+
+HLSL Tools will, by default, only use the directory containing the source file to search for `#include` files.
+
+You can customise this, and add additional preprocessor definitions, by creating a file named `shadertoolsconfig.json`:
+
+``` json
+{
+  "hlsl.preprocessorDefinitions": {
+    "MY_PREPROCESSOR_DEFINE_1": "Foo",
+    "MY_PREPROCESSOR_DEFINE_2": 1
+  },
+  "hlsl.additionalIncludeDirectories": [
+    "C:\\Code\\MyDirectoryA",
+    "C:\\Code\\MyDirectoryB",
+    ".", // Directory containing this config file
+    "..\\RelativeDirectory"
+  ]
+}
+```
+
+HLSL Tools will look for a file named `shadertoolsconfig.json` in the directory of an opened file,
+and in every parent directory. A search for `shadertoolsconfig.json` files will stop when the drive
+root is reached or a `shadertoolsconfig.json` file with `"root": true` is found. If multiple config
+files are found during this search, they will be combined, with properties in closer files taking
+precedence.
+
+Config files are cached for performance reasons. If you make make changes to a config file,
+you'll need to close and re-open any source files that use that config file.
 
 ### Getting involved
 
